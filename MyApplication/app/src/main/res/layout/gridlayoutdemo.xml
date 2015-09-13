@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="utf-8"?>
+<GridLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:columnCount="6"
+    android:orientation="horizontal"
+    android:rowCount="10">
+    　　
+
+    <Button android:background="#ffff5651" />
+
+    <Button android:background="#ff45ff61" />
+
+    <Button android:background="#ff5d59ff" />
+
+    <Button android:background="#fff9ff52" />
+
+    <Button android:background="#ff31fff0" />
+
+    <Button android:background="#ffff5651" />
+
+    <Button android:background="#ff45ff61" />
+
+    <Button android:background="#ff5d59ff" />
+
+    <Button android:background="#fff9ff52" />
+
+    <Button android:background="#ff31fff0" />
+
+    <Button android:background="#ffff5651" />
+
+    <Button android:background="#ff45ff61" />
+
+    <Button android:background="#ff5d59ff" />
+
+    <Button android:background="#fff9ff52" />
+
+    <Button android:background="#ff31fff0" />
+
+    <Button android:background="#ffff5651" />
+
+    <Button android:background="#ff45ff61" />
+
+    <Button android:background="#ff5d59ff" />
+
+    <Button android:background="#fff9ff52" />
+
+    <Button android:background="#ff31fff0" />
+
+    <Button android:background="#ffff5651" />
+
+    <Button android:background="#ff45ff61" />
+
+    <Button android:background="#ff5d59ff" />
+
+    <Button android:background="#fff9ff52" />
+
+    <Button android:background="#ff31fff0" />
+
+    <Button android:background="#ffff5651" />
+
+    <Button android:background="#ff45ff61" />
+
+    <Button android:background="#ff5d59ff" />
+
+    <Button android:background="#fff9ff52" />
+
+    <Button android:background="#ff31fff0" />
+
+    <Button android:background="#ffff5651" />
+
+    <Button android:background="#ff45ff61" />
+
+    <Button android:background="#ff5d59ff" />
+
+    <Button android:background="#fff9ff52" />
+
+    <Button android:background="#ff31fff0" />
+
+    <Button android:background="#ffff5651" />
+
+    <Button android:background="#ff45ff61" />
+
+    <Button android:background="#ff5d59ff" />
+
+    <Button android:background="#fff9ff52" />
+
+    <Button android:background="#ff31fff0" />
+
+    <Button android:background="#ffff5651" />
+
+    <Button android:background="#ff45ff61" />
+
+    <Button android:background="#ff5d59ff" />
+
+    <Button android:background="#fff9ff52" />
+
+    <Button android:background="#ff31fff0" />
+
+    <Button android:background="#ffff5651" />
+
+    <Button android:background="#ff45ff61" />
+
+    <Button android:background="#ff5d59ff" />
+
+    <Button android:background="#fff9ff52" />
+
+    <Button android:background="#ff31fff0" />
+
+    <Button android:background="#ffff5651" />
+
+    <Button android:background="#ff45ff61" />
+
+    <Button android:background="#ff5d59ff" />
+
+    <Button android:background="#fff9ff52" />
+
+    <Button android:background="#ff31fff0" />
+
+    <Button android:background="#ffff5651" />
+
+    <Button android:background="#ff45ff61" />
+
+    <Button android:background="#ff5d59ff" />
+
+    <Button android:background="#fff9ff52" />
+
+    <Button android:background="#ff31fff0" />
+
+    <Button android:background="#ffff5651" />
+
+    <Button android:background="#ff45ff61" />
+
+    <Button android:background="#ff5d59ff" />
+
+    <Button android:background="#fff9ff52" />
+
+    <Button android:background="#ff31fff0" />
+
+    <Button android:background="#ffff5651" />
+
+    <Button android:background="#ff45ff61" />
+
+    <Button android:background="#ff5d59ff" />
+
+    <Button android:background="#fff9ff52" />
+
+    <Button android:background="#ff31fff0" />
+</GridLayout>

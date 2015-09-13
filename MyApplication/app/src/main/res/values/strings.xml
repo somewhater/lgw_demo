@@ -1,0 +1,12 @@
+<resources>
+    <string name="app_name">My Application</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">设置</string>
+    <string name="fl">FrameLayout</string>
+    <string name="al">AbsoluteLayout</string>
+    <string name="ll">LinearLayout</string>
+    <string name="rl">RelativeLayout</string>
+    <string name="click">单击的联系人</string>
+    <string name="name">李国威</string>
+    <string name="call">18565470997</string>
+</resources>
