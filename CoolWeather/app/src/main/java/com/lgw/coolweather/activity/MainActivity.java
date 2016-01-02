@@ -11,6 +11,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.lgw.coolweather.R;
+import com.lgw.coolweather.constant.City;
+import com.lgw.coolweather.constant.Key;
 import com.lgw.coolweather.utils.LogUtil;
 
 import java.io.BufferedReader;
@@ -56,7 +58,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
             public void run() {
                 {
                     try {
-                        URL url = new URL("https://www.baidu.com/");
+                        URL url = new URL("https://api.heweather.com/x3/weather?cityid=" + City.GUANGZHOU + "&key=" + Key.KEY);
                         con = (HttpURLConnection) url.openConnection();
                         con.setRequestMethod("GET");
                         con.setConnectTimeout(8000);
