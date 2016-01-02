@@ -33,10 +33,15 @@
         android:textColor="#ffff0e10"
         android:textSize="50dp"/>
 
-    <TextView
-        android:id="@+id/msg"
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="#ff00ffa8"
-        android:text="详情："/>
+        android:layout_height="match_parent">
+
+        <TextView
+            android:id="@+id/msg"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="#ff00ffa8"
+            android:text="详情："/>
+    </ScrollView>
 </LinearLayout>
