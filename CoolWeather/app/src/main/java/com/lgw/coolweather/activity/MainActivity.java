@@ -13,7 +13,10 @@ import android.widget.Toast;
 import com.lgw.coolweather.R;
 import com.lgw.coolweather.constant.City;
 import com.lgw.coolweather.constant.Key;
+import com.lgw.coolweather.utils.JsonPar;
 import com.lgw.coolweather.utils.LogUtil;
+
+import org.json.JSONArray;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -59,25 +62,31 @@ public class MainActivity extends Activity implements View.OnClickListener {
                 {
                     try {
                         URL url = new URL("https://api.heweather.com/x3/weather?cityid=" + City.GUANGZHOU + "&key=" + Key.KEY);
+                        LogUtil.i(TAG, url + "");
                         con = (HttpURLConnection) url.openConnection();
                         con.setRequestMethod("GET");
                         con.setConnectTimeout(8000);
                         con.setReadTimeout(8000);
+                        int code = con.getResponseCode();
+                        LogUtil.e(TAG, code + "++++++++++++++++++++");
                         InputStream ins = con.getInputStream();
                         BufferedReader reader = new BufferedReader(new InputStreamReader(ins));
                         StringBuilder response = new StringBuilder();
                         String line;
                         while ((line = reader.readLine()) != null) {
-                            response.append(line);
+                            response.append(line + "\r\n");
                         }
                         Message message = new Message();
                         message.what = SHWO_RESPONSE;
                         message.obj = response.toString();
+                        JsonPar.parserJSONWithJSONObject(response.toString());
+                        new JSONArray();
                         hander.sendMessage(message);
                     } catch (MalformedURLException e) {
                         e.printStackTrace();
                     } catch (IOException e) {
-                        e.printStackTrace();
+                        LogUtil.v(TAG, "当前网络错误请检查");
+                        //                        e.printStackTrace();
                     } finally {
                         con.disconnect();
                     }
