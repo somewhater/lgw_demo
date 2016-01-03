@@ -13,7 +13,7 @@ import android.widget.Toast;
 import com.lgw.coolweather.R;
 import com.lgw.coolweather.constant.City;
 import com.lgw.coolweather.constant.Key;
-import com.lgw.coolweather.utils.JsonPar;
+import com.lgw.coolweather.utils.JsonObjectTool;
 import com.lgw.coolweather.utils.LogUtil;
 
 import org.json.JSONArray;
@@ -79,7 +79,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
                         Message message = new Message();
                         message.what = SHWO_RESPONSE;
                         message.obj = response.toString();
-                        JsonPar.parserJSONWithJSONObject(response.toString());
+                        JsonObjectTool.parserJSONWithJSONObject(response.toString());
                         new JSONArray();
                         hander.sendMessage(message);
                     } catch (MalformedURLException e) {
