@@ -74,7 +74,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
                         StringBuilder response = new StringBuilder();
                         String line;
                         while ((line = reader.readLine()) != null) {
-                            response.append(line + "\r\n");
+                            response.append(line);
                         }
                         Message message = new Message();
                         message.what = SHWO_RESPONSE;
