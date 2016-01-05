@@ -13,6 +13,7 @@ import android.widget.Toast;
 import com.lgw.coolweather.R;
 import com.lgw.coolweather.constant.City;
 import com.lgw.coolweather.constant.Key;
+import com.lgw.coolweather.utils.JsonGsonTool;
 import com.lgw.coolweather.utils.JsonObjectTool;
 import com.lgw.coolweather.utils.LogUtil;
 
@@ -28,17 +29,17 @@ import java.net.URL;
 
 
 public class MainActivity extends Activity implements View.OnClickListener {
-    public static final int SHWO_RESPONSE = 0;
+    public static final int SHOW_RESPONSE = 0;
     public String TAG = "MainActivity_____________________";
     private EditText city;
     private Button search;
     private TextView msg_tv;
     private HttpURLConnection con;
-    private Handler hander = new Handler() {
+    private Handler handler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
             switch (msg.what) {
-                case SHWO_RESPONSE:
+                case SHOW_RESPONSE:
                     String response = (String) msg.obj;
                     msg_tv.setText(response);
             }
@@ -77,11 +78,12 @@ public class MainActivity extends Activity implements View.OnClickListener {
                             response.append(line);
                         }
                         Message message = new Message();
-                        message.what = SHWO_RESPONSE;
+                        message.what = SHOW_RESPONSE;
                         message.obj = response.toString();
-                        JsonObjectTool.parserJSONWithJSONObject(response.toString());
+//                        JsonObjectTool.parserJSONWithJSONObject(response.toString());
+                        JsonGsonTool.parserJSONWithGson(response.toString());
                         new JSONArray();
-                        hander.sendMessage(message);
+                        handler.sendMessage(message);
                     } catch (MalformedURLException e) {
                         e.printStackTrace();
                     } catch (IOException e) {
