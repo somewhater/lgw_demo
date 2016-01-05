@@ -1,44 +1,37 @@
 package com.lgw.coolweather.model.gson;
 
+import com.google.gson.annotations.SerializedName;
+
 import java.io.Serializable;
 
 /**
  * Created by Administrator on 2016-01-05.
  */
-public class Daily_forecast implements Serializable {
-    private Astro astro;
-    private Cond cond;
-    private String date;
+public class Now implements Serializable {
+    @SerializedName("cond")
+    private Cond_now cond_now;
+    private int fl;
     private int hum;
-    private float pcpn;
-    private int pop;
+    private int pcpn;
     private int pres;
-    private Temp temp;
+    private int temp;
     private int vis;
     private Wind wind;
 
-    public Astro getAstro() {
-        return astro;
+    public Cond_now getCond_now() {
+        return cond_now;
     }
 
-    public void setAstro(Astro astro) {
-        this.astro = astro;
+    public void setCond_now(Cond_now cond_now) {
+        this.cond_now = cond_now;
     }
 
-    public Cond getCond() {
-        return cond;
+    public int getFl() {
+        return fl;
     }
 
-    public void setCond(Cond cond) {
-        this.cond = cond;
-    }
-
-    public String getDate() {
-        return date;
-    }
-
-    public void setDate(String date) {
-        this.date = date;
+    public void setFl(int fl) {
+        this.fl = fl;
     }
 
     public int getHum() {
@@ -49,20 +42,12 @@ public class Daily_forecast implements Serializable {
         this.hum = hum;
     }
 
-    public float getPcpn() {
+    public int getPcpn() {
         return pcpn;
     }
 
-    public void setPcpn(float pcpn) {
+    public void setPcpn(int pcpn) {
         this.pcpn = pcpn;
-    }
-
-    public int getPop() {
-        return pop;
-    }
-
-    public void setPop(int pop) {
-        this.pop = pop;
     }
 
     public int getPres() {
@@ -73,11 +58,11 @@ public class Daily_forecast implements Serializable {
         this.pres = pres;
     }
 
-    public Temp getTemp() {
+    public int getTemp() {
         return temp;
     }
 
-    public void setTemp(Temp temp) {
+    public void setTemp(int temp) {
         this.temp = temp;
     }
 

@@ -5,33 +5,13 @@ import java.io.Serializable;
 /**
  * Created by Administrator on 2016-01-05.
  */
-public class Daily_forecast implements Serializable {
-    private Astro astro;
-    private Cond cond;
+public class Hourly_forecast implements Serializable {
     private String date;
     private int hum;
-    private float pcpn;
     private int pop;
     private int pres;
-    private Temp temp;
-    private int vis;
+    private int temp;
     private Wind wind;
-
-    public Astro getAstro() {
-        return astro;
-    }
-
-    public void setAstro(Astro astro) {
-        this.astro = astro;
-    }
-
-    public Cond getCond() {
-        return cond;
-    }
-
-    public void setCond(Cond cond) {
-        this.cond = cond;
-    }
 
     public String getDate() {
         return date;
@@ -47,14 +27,6 @@ public class Daily_forecast implements Serializable {
 
     public void setHum(int hum) {
         this.hum = hum;
-    }
-
-    public float getPcpn() {
-        return pcpn;
-    }
-
-    public void setPcpn(float pcpn) {
-        this.pcpn = pcpn;
     }
 
     public int getPop() {
@@ -73,20 +45,12 @@ public class Daily_forecast implements Serializable {
         this.pres = pres;
     }
 
-    public Temp getTemp() {
+    public int getTemp() {
         return temp;
     }
 
-    public void setTemp(Temp temp) {
+    public void setTemp(int temp) {
         this.temp = temp;
-    }
-
-    public int getVis() {
-        return vis;
-    }
-
-    public void setVis(int vis) {
-        this.vis = vis;
     }
 
     public Wind getWind() {
