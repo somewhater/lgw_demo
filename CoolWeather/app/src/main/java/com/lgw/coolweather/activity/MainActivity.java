@@ -82,7 +82,6 @@ public class MainActivity extends Activity implements View.OnClickListener {
                         message.obj = response.toString();
 //                        JsonObjectTool.parserJSONWithJSONObject(response.toString());
                         JsonGsonTool.parserJSONWithGson(response.toString());
-                        new JSONArray();
                         handler.sendMessage(message);
                     } catch (MalformedURLException e) {
                         e.printStackTrace();
