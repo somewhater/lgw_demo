@@ -20,13 +20,4 @@ public class Weather implements Serializable {
     public void setDatas(Data[] datas) {
         this.datas = datas;
     }
-
-    @Override
-    public String toString() {
-        StringBuffer stringBuffer = new StringBuffer();
-        for (Data data : datas) {
-            stringBuffer.append(data);
-        }
-        return stringBuffer.toString();
-    }
 }

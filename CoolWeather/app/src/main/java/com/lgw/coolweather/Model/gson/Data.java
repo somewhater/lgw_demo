@@ -8,11 +8,19 @@ import java.io.Serializable;
 public class Data implements Serializable {
     private Aqi aqi;
     private Basic basic;
-    private Daily_forecast[] daily_forecasts;
+    private Daily_forecast[] daily_forecast;
     private Hourly_forecast[] hourly_forecast;
     private Now now;
     private String status;
     private Suggestion suggestion;
+
+    public Daily_forecast[] getDaily_forecast() {
+        return daily_forecast;
+    }
+
+    public void setDaily_forecast(Daily_forecast[] daily_forecast) {
+        this.daily_forecast = daily_forecast;
+    }
 
     public Aqi getAqi() {
         return aqi;
@@ -28,14 +36,6 @@ public class Data implements Serializable {
 
     public void setBasic(Basic basic) {
         this.basic = basic;
-    }
-
-    public Daily_forecast[] getDaily_forecasts() {
-        return daily_forecasts;
-    }
-
-    public void setDaily_forecasts(Daily_forecast[] daily_forecasts) {
-        this.daily_forecasts = daily_forecasts;
     }
 
     public Hourly_forecast[] getHourly_forecast() {
