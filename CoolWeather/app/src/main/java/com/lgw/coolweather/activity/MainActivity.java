@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.view.View;
+import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -13,6 +14,8 @@ import android.widget.Toast;
 import com.lgw.coolweather.R;
 import com.lgw.coolweather.constant.City;
 import com.lgw.coolweather.constant.Key;
+import com.lgw.coolweather.db.DbHelper;
+import com.lgw.coolweather.model.gson.Data;
 import com.lgw.coolweather.utils.JsonGsonTool;
 import com.lgw.coolweather.utils.JsonObjectTool;
 import com.lgw.coolweather.utils.LogUtil;
@@ -49,6 +52,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_main);
         city = (EditText) findViewById(R.id.editCity);
         search = (Button) findViewById(R.id.search);
@@ -62,7 +66,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
             public void run() {
                 {
                     try {
-                        URL url = new URL("https://api.heweather.com/x3/weather?cityid=" + City.GUANGZHOU + "&key=" + Key.KEY);
+                        URL url = new URL("https://api.heweather.com/x3/weather?cityid=" + City.BEIJING + "&key=" + Key.KEY);
                         LogUtil.i(TAG, url + "");
                         con = (HttpURLConnection) url.openConnection();
                         con.setRequestMethod("GET");
@@ -77,11 +81,13 @@ public class MainActivity extends Activity implements View.OnClickListener {
                         while ((line = reader.readLine()) != null) {
                             response.append(line);
                         }
+                        //sonObjectTool.parserJSONWithJSONObject(response.toString());
+                        Data[] data = JsonGsonTool.parserJSONWithGson(response.toString());
+                        StringBuffer msg = new StringBuffer();
+                        msg.append(data[0].getAqi().getCity().getAqi());
                         Message message = new Message();
                         message.what = SHOW_RESPONSE;
                         message.obj = response.toString();
-//                        JsonObjectTool.parserJSONWithJSONObject(response.toString());
-                        JsonGsonTool.parserJSONWithGson(response.toString());
                         handler.sendMessage(message);
                     } catch (MalformedURLException e) {
                         e.printStackTrace();
@@ -111,8 +117,14 @@ public class MainActivity extends Activity implements View.OnClickListener {
                     Toast.makeText(getApplicationContext(), "输入的城市名称为空，请重新输入", Toast.LENGTH_SHORT).show();
                 } else {
                     sendRequestWithHttpURLConnection();
+                    createDB();
                 }
         }
 
+    }
+
+    private void createDB() {
+        DbHelper mDbHelper = new DbHelper(this, "ChinaCities.db", null, 1);
+        mDbHelper.getWritableDatabase();
     }
 }

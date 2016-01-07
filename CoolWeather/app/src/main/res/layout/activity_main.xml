@@ -29,9 +29,8 @@
         android:id="@+id/search"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="#000000"
         android:text="@string/search"
-        android:textColor="#ffffa9ac"
+        android:textColor="#ffff5e2d"
         android:textSize="50dp"/>
 
     <ScrollView

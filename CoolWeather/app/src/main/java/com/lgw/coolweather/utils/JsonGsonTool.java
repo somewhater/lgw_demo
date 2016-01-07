@@ -17,7 +17,7 @@ import com.lgw.coolweather.model.gson.Weather;
 public class JsonGsonTool {
     public static final String TAG = "JsonGsonTool____________________";
 
-    public static void parserJSONWithGson(String mJsonData) {
+    public static Data[] parserJSONWithGson(String mJsonData) {
         Gson gson = new Gson();
         Weather weather = gson.fromJson(mJsonData, Weather.class);
         Data[] data = weather.getDatas();
@@ -51,5 +51,6 @@ public class JsonGsonTool {
         Now now = data[0].getNow();
         String state = data[0].getStatus();
         Suggestion suggestion = data[0].getSuggestion();
+        return data;
     }
 }
