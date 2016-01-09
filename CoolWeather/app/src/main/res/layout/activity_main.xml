@@ -39,6 +39,7 @@
 
         <TextView
             android:id="@+id/msg"
+            android:textColor="#ff2098ff"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:text="详情："/>

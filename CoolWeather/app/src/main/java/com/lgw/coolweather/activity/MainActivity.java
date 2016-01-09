@@ -13,41 +13,20 @@ import android.widget.Toast;
 
 import com.lgw.coolweather.R;
 import com.lgw.coolweather.constant.City;
-import com.lgw.coolweather.constant.Key;
+import com.lgw.coolweather.constant.MainMessage;
+import com.lgw.coolweather.constant.RequestData;
 import com.lgw.coolweather.db.DbHelper;
-import com.lgw.coolweather.model.gson.Data;
+import com.lgw.coolweather.httpclient.HttpClientThread;
 import com.lgw.coolweather.utils.JsonGsonTool;
-import com.lgw.coolweather.utils.JsonObjectTool;
 import com.lgw.coolweather.utils.LogUtil;
-
-import org.json.JSONArray;
-
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.URL;
+import com.lgw.coolweather.utils.MainHandler;
 
 
 public class MainActivity extends Activity implements View.OnClickListener {
-    public static final int SHOW_RESPONSE = 0;
     public String TAG = "MainActivity_____________________";
     private EditText city;
     private Button search;
     private TextView msg_tv;
-    private HttpURLConnection con;
-    private Handler handler = new Handler() {
-        @Override
-        public void handleMessage(Message msg) {
-            switch (msg.what) {
-                case SHOW_RESPONSE:
-                    String response = (String) msg.obj;
-                    msg_tv.setText(response);
-            }
-        }
-    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,53 +39,6 @@ public class MainActivity extends Activity implements View.OnClickListener {
         search.setOnClickListener(this);
     }
 
-    private void sendRequestWithHttpURLConnection() {
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                {
-                    try {
-                        URL url = new URL("https://api.heweather.com/x3/weather?cityid=" + City.BEIJING + "&key=" + Key.KEY);
-                        LogUtil.i(TAG, url + "");
-                        con = (HttpURLConnection) url.openConnection();
-                        con.setRequestMethod("GET");
-                        con.setConnectTimeout(8000);
-                        con.setReadTimeout(8000);
-                        int code = con.getResponseCode();
-                        LogUtil.e(TAG, code + "++++++++++++++++++++");
-                        InputStream ins = con.getInputStream();
-                        BufferedReader reader = new BufferedReader(new InputStreamReader(ins));
-                        StringBuilder response = new StringBuilder();
-                        String line;
-                        while ((line = reader.readLine()) != null) {
-                            response.append(line);
-                        }
-                        //sonObjectTool.parserJSONWithJSONObject(response.toString());
-                        Data[] data = JsonGsonTool.parserJSONWithGson(response.toString());
-                        StringBuffer msg = new StringBuffer();
-                        msg.append(data[0].getAqi().getCity().getAqi());
-                        Message message = new Message();
-                        message.what = SHOW_RESPONSE;
-                        message.obj = response.toString();
-                        handler.sendMessage(message);
-                    } catch (MalformedURLException e) {
-                        e.printStackTrace();
-                    } catch (IOException e) {
-                        LogUtil.v(TAG, "当前网络错误请检查");
-                        //                        e.printStackTrace();
-                    } finally {
-                        con.disconnect();
-                    }
-                }
-            }
-        }).start();
-    }
-
-    /**
-     * Called when a view has been clicked.
-     *
-     * @param v The view that was clicked.
-     */
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
@@ -116,8 +48,9 @@ public class MainActivity extends Activity implements View.OnClickListener {
                 if (cities.equals("")) {
                     Toast.makeText(getApplicationContext(), "输入的城市名称为空，请重新输入", Toast.LENGTH_SHORT).show();
                 } else {
-                    sendRequestWithHttpURLConnection();
-                    createDB();
+//                    HttpClientThread runnable = new HttpClientThread(RequestData.KEY, City.GUANGZHOU, msg_tv);
+//                    Thread thread = new Thread(runnable);
+//                    thread.start();
                 }
         }
 
