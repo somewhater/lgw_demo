@@ -1,6 +1,14 @@
 package com.lgw.coolweather.httpclient;
 
+import android.os.Message;
+
+import com.lgw.coolweather.constant.City;
+import com.lgw.coolweather.constant.MainMessage;
+import com.lgw.coolweather.constant.RequestData;
+import com.lgw.coolweather.utils.JsonObjectTool;
 import com.lgw.coolweather.utils.LogUtil;
+
+import org.json.JSONArray;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -15,35 +23,42 @@ import java.net.URL;
  */
 public class HttpConnectionTool {
     public static final String TAG = "HttpConnectionTool_________";
+    private HttpURLConnection con;
+    private URL url = null;
+    private StringBuilder response;
 
-    public static String getResponse(String cityID, String key) {
-        String rep = "";
+    public String getResponse() {
+
         try {
-            URL url = new URL("https://api.heweather.com/x3/weather?cityid=" + key + "&key=" + cityID);
-            HttpURLConnection con = (HttpURLConnection) url.openConnection();
-            con.setRequestMethod("get");
+            url = new URL("https://api.heweather.com/x3/weather?cityid=" + City.GUANGZHOU + "&key=" + RequestData.KEY);
+            LogUtil.i(TAG, url + "");
+            con = (HttpURLConnection) url.openConnection();
+            con.setRequestMethod("GET");
             con.setConnectTimeout(8000);
             con.setReadTimeout(8000);
-            int requestCode = con.getResponseCode();
-            LogUtil.i(TAG, "返回码为：" + requestCode);
-            String requestMessage = con.getResponseMessage();
-            LogUtil.i(TAG, "requestMessage is ___+++___" + requestMessage);
+            int code = con.getResponseCode();
+            LogUtil.e(TAG, code + "++++++++++++++++++++");
             InputStream ins = con.getInputStream();
-            InputStreamReader insReader = new InputStreamReader(ins);
-            BufferedReader bfReader = new BufferedReader(insReader);
-            StringBuilder str = new StringBuilder();
-            String line = bfReader.readLine();
-            while (line != null) {
-                str.append(line + "\n");
+            BufferedReader reader = new BufferedReader(new InputStreamReader(ins));
+            response = new StringBuilder();
+            String line;
+            while ((line = reader.readLine()) != null) {
+                response.append(line);
             }
-            rep = str.toString();
+//            Message message = new Message();
+//            message.what = MainMessage.SHOW_RESPONSE;
+//            message.obj = response.toString();
+//            JsonObjectTool.parserJSONWithJSONObject(response.toString());
+//            new JSONArray();
+//            hander.sendMessage(message);
         } catch (MalformedURLException e) {
-            //e.printStackTrace();
-            LogUtil.e(TAG, "URL not found");
+            e.printStackTrace();
         } catch (IOException e) {
-            //e.printStackTrace();
-            LogUtil.e(TAG, "当前网络无网络");
+            LogUtil.v(TAG, "当前网络错误请检查");
+            //                        e.printStackTrace();
+        } finally {
+            con.disconnect();
         }
-        return rep;
+        return response.toString();
     }
 }
