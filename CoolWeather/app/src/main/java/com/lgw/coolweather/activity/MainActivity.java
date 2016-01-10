@@ -17,6 +17,7 @@ import com.lgw.coolweather.constant.MainMessage;
 import com.lgw.coolweather.constant.RequestData;
 import com.lgw.coolweather.db.DbHelper;
 import com.lgw.coolweather.httpclient.HttpClientThread;
+import com.lgw.coolweather.httpclient.HttpConnectionTool;
 import com.lgw.coolweather.utils.JsonGsonTool;
 import com.lgw.coolweather.utils.LogUtil;
 import com.lgw.coolweather.utils.MainHandler;
@@ -27,6 +28,15 @@ public class MainActivity extends Activity implements View.OnClickListener {
     private EditText city;
     private Button search;
     private TextView msg_tv;
+    private Handler handler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            switch (msg.what) {
+                case MainMessage.SHOW_RESPONSE:
+                    msg_tv.setText((String) msg.obj);
+            }
+        }
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,9 +58,15 @@ public class MainActivity extends Activity implements View.OnClickListener {
                 if (cities.equals("")) {
                     Toast.makeText(getApplicationContext(), "输入的城市名称为空，请重新输入", Toast.LENGTH_SHORT).show();
                 } else {
-//                    HttpClientThread runnable = new HttpClientThread(RequestData.KEY, City.GUANGZHOU, msg_tv);
-//                    Thread thread = new Thread(runnable);
-//                    thread.start();
+                    new Thread(new Runnable() {
+                        @Override
+                        public void run() {
+                            String request = HttpConnectionTool.getResponse(City.GUANGZHOU, RequestData.KEY);
+                            Message msg = new Message();
+                            msg.what = MainMessage.SHOW_RESPONSE;
+                            msg.obj = request;
+                        }
+                    }).start();
                 }
         }
 
