@@ -1,6 +1,8 @@
 package com.lgw.coolweather.activity;
 
 import android.app.Activity;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -12,10 +14,11 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.lgw.coolweather.R;
-import com.lgw.coolweather.constant.City;
 import com.lgw.coolweather.constant.MainMessage;
 import com.lgw.coolweather.constant.RequestData;
+import com.lgw.coolweather.db.DBManager;
 import com.lgw.coolweather.httpclient.HttpConnectionTool;
+import com.lgw.coolweather.model.city.City;
 import com.lgw.coolweather.utils.JsonObjectTool;
 import com.lgw.coolweather.utils.LogUtil;
 
@@ -28,6 +31,7 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.ArrayList;
 
 
 public class MainActivity extends Activity implements View.OnClickListener {
@@ -35,6 +39,8 @@ public class MainActivity extends Activity implements View.OnClickListener {
     public EditText city;
     public Button search;
     public TextView msg_tv;
+    public SQLiteDatabase database;
+    private ArrayList<City> cities;
     public Handler handler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
@@ -61,7 +67,24 @@ public class MainActivity extends Activity implements View.OnClickListener {
         new Thread(new Runnable() {
             @Override
             public void run() {
-                String response = new HttpConnectionTool().getResponse();
+                database = SQLiteDatabase.openOrCreateDatabase(DBManager.DB_PATH + "/" + DBManager.DB_NAME, null);
+                StringBuffer sb = null;
+                String response = null;
+                cities = getCity();
+                for (City city : cities) {
+                    response = city.getID() + "\n" +
+                            city.getAREAID() + "\n" +
+                            city.getNAMEEN() + "\n" +
+                            city.getNAMECN() + "\n" +
+                            city.getDISTRICTEN() + "\n" +
+                            city.getDISTRICTCN() + "\n" +
+                            city.getPROVEN() + "\n" +
+                            city.getPROVCN() + "\n" +
+                            city.getNATIONEN() + "\n" +
+                            city.getNATIONCN() + "\n";
+//                    LogUtil.i(TAG, response);
+//                    sb.append(response);
+                }
                 Message message = new Message();
                 message.what = MainMessage.SHOW_RESPONSE;
                 message.obj = response;
@@ -77,12 +100,52 @@ public class MainActivity extends Activity implements View.OnClickListener {
                 String cities = city.getText().toString();
                 LogUtil.i(TAG, "" + cities);
                 if (cities.equals("")) {
-                    sendRequestWithHttpURLConnection();
-                    Toast.makeText(getApplicationContext(), "输入的城市名称为空，请重新输入", Toast.LENGTH_SHORT).show();
+                    DBManager dbManager = new DBManager(this);
+                    dbManager.openDatabase();
+                    dbManager.closeDatabase();
+                    Toast.makeText(getApplicationContext(), "数据库导入成功", Toast.LENGTH_SHORT).show();
                 } else {
                     sendRequestWithHttpURLConnection();
                 }
         }
 
+    }
+
+    private ArrayList<City> getCity() {
+        // where namecn = '长春'
+        Cursor cursor = database.rawQuery("select * from city where id <= 12", null);
+//        LogUtil.i(TAG, cursor + "\n");
+        if (cursor != null) {
+            int NUM_CITY = cursor.getCount();
+            ArrayList<City> cities = new ArrayList<City>(NUM_CITY);
+            if (cursor.moveToFirst()) {
+                do {
+                    int ID = cursor.getInt(cursor.getColumnIndex("ID"));
+                    int AREAID = cursor.getInt(cursor.getColumnIndex("AREAID"));
+                    String NAMEEN = cursor.getString(cursor.getColumnIndex("NAMEEN"));
+                    String NAMECN = cursor.getString(cursor.getColumnIndex("NAMECN"));
+                    String DISTRICTEN = cursor.getString(cursor.getColumnIndex("DISTRICTEN"));
+                    String DISTRICTCN = cursor.getString(cursor.getColumnIndex("DISTRICTCN"));
+                    String PROVEN = cursor.getString(cursor.getColumnIndex("PROVEN"));
+                    String PROVCN = cursor.getString(cursor.getColumnIndex("PROVCN"));
+                    String NATIONEN = cursor.getString(cursor.getColumnIndex("NATIONEN"));
+                    String NATIONCN = cursor.getString(cursor.getColumnIndex("NATIONCN"));
+                    City city = new City();
+                    city.setID(ID);
+                    city.setAREAID(AREAID);
+                    city.setNAMECN(NAMECN);
+                    city.setNAMEEN(NAMEEN);
+                    city.setDISTRICTEN(DISTRICTEN);
+                    city.setDISTRICTCN(DISTRICTCN);
+                    city.setPROVEN(PROVEN);
+                    city.setPROVCN(PROVCN);
+                    city.setNATIONEN(NATIONEN);
+                    city.setNATIONCN(NATIONCN);
+                    cities.add(city);
+                } while (cursor.moveToNext());
+            }
+            return cities;
+        }
+        return null;
     }
 }
