@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.view.View;
+import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -12,6 +13,7 @@ import android.widget.Toast;
 
 import com.lgw.coolweather.R;
 import com.lgw.coolweather.constant.City;
+import com.lgw.coolweather.constant.MainMessage;
 import com.lgw.coolweather.constant.RequestData;
 import com.lgw.coolweather.httpclient.HttpConnectionTool;
 import com.lgw.coolweather.utils.JsonObjectTool;
@@ -29,17 +31,15 @@ import java.net.URL;
 
 
 public class MainActivity extends Activity implements View.OnClickListener {
-    public static final int SHWO_RESPONSE = 0;
     public String TAG = "MainActivity_____________________";
-    private EditText city;
-    private Button search;
-    private TextView msg_tv;
-    private HttpURLConnection con;
-    private Handler hander = new Handler() {
+    public EditText city;
+    public Button search;
+    public TextView msg_tv;
+    public Handler handler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
             switch (msg.what) {
-                case SHWO_RESPONSE:
+                case MainMessage.SHOW_RESPONSE:
                     String response = (String) msg.obj;
                     msg_tv.setText(response);
             }
@@ -49,6 +49,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_main);
         city = (EditText) findViewById(R.id.editCity);
         search = (Button) findViewById(R.id.search);
@@ -62,9 +63,9 @@ public class MainActivity extends Activity implements View.OnClickListener {
             public void run() {
                 String response = new HttpConnectionTool().getResponse();
                 Message message = new Message();
-                message.what = SHWO_RESPONSE;
+                message.what = MainMessage.SHOW_RESPONSE;
                 message.obj = response;
-                hander.sendMessage(message);
+                handler.sendMessage(message);
             }
         }).start();
     }

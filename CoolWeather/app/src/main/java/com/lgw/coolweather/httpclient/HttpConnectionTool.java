@@ -55,7 +55,7 @@ public class HttpConnectionTool {
             e.printStackTrace();
         } catch (IOException e) {
             LogUtil.v(TAG, "当前网络错误请检查");
-            //                        e.printStackTrace();
+            //e.printStackTrace();
         } finally {
             con.disconnect();
         }
