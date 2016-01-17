@@ -71,6 +71,8 @@ public class MainActivity extends Activity implements View.OnClickListener {
                 StringBuffer sb = null;
                 String response = null;
                 cities = getCity();
+                int i = cities.size();
+                LogUtil.i(TAG, i + "________________________");
                 for (City city : cities) {
                     response = city.getID() + "\n" +
                             city.getAREAID() + "\n" +
