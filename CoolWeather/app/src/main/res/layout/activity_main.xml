@@ -1,9 +1,9 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              xmlns:tools="http://schemas.android.com/tools"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent"
-              android:orientation="vertical"
-              tools:context=".MainActivity">
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".MainActivity">
 
     <TextView
         android:layout_width="match_parent"
@@ -12,7 +12,7 @@
         android:gravity="center"
         android:text="@string/title"
         android:textColor="#ff000000"
-        android:textSize="50dp"/>
+        android:textSize="50dp" />
 
 
     <EditText
@@ -22,7 +22,7 @@
         android:gravity="center"
         android:hint="@string/city"
         android:textColor="#ff2098ff"
-        android:textSize="40dp"/>
+        android:textSize="40dp" />
 
 
     <Button
@@ -31,7 +31,7 @@
         android:layout_height="wrap_content"
         android:text="@string/search"
         android:textColor="#ffff5e2d"
-        android:textSize="50dp"/>
+        android:textSize="50dp" />
 
     <ScrollView
         android:layout_width="match_parent"
@@ -39,9 +39,9 @@
 
         <TextView
             android:id="@+id/msg"
-            android:textColor="#ff2098ff"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:text="详情："/>
+            android:text="详情："
+            android:textColor="#ff2098ff" />
     </ScrollView>
 </LinearLayout>

@@ -68,11 +68,8 @@ public class MainActivity extends Activity implements View.OnClickListener {
             @Override
             public void run() {
                 database = SQLiteDatabase.openOrCreateDatabase(DBManager.DB_PATH + "/" + DBManager.DB_NAME, null);
-                StringBuffer sb = null;
                 String response = null;
                 cities = getCity();
-                int i = cities.size();
-                LogUtil.i(TAG, i + "________________________");
                 for (City city : cities) {
                     response = city.getID() + "\n" +
                             city.getAREAID() + "\n" +
@@ -84,8 +81,6 @@ public class MainActivity extends Activity implements View.OnClickListener {
                             city.getPROVCN() + "\n" +
                             city.getNATIONEN() + "\n" +
                             city.getNATIONCN() + "\n";
-//                    LogUtil.i(TAG, response);
-//                    sb.append(response);
                 }
                 Message message = new Message();
                 message.what = MainMessage.SHOW_RESPONSE;
@@ -114,12 +109,10 @@ public class MainActivity extends Activity implements View.OnClickListener {
     }
 
     private ArrayList<City> getCity() {
-        // where namecn = '长春'
-        Cursor cursor = database.rawQuery("select * from city where id <= 12", null);
-//        LogUtil.i(TAG, cursor + "\n");
+        Cursor cursor = database.rawQuery("select * from city where id = 12", null);
         if (cursor != null) {
             int NUM_CITY = cursor.getCount();
-            ArrayList<City> cities = new ArrayList<City>(NUM_CITY);
+            ArrayList<City> cities = new ArrayList<>(NUM_CITY);
             if (cursor.moveToFirst()) {
                 do {
                     int ID = cursor.getInt(cursor.getColumnIndex("ID"));

@@ -49,8 +49,7 @@ public class DBManager {
                 fous.close();
                 ins.close();
             }
-            SQLiteDatabase database = SQLiteDatabase.openOrCreateDatabase(dbfile, null);
-            return database;
+            return SQLiteDatabase.openOrCreateDatabase(dbfile, null);
         } catch (FileNotFoundException e) {
             LogUtil.i(TAG, "FileNotFoundException");
             e.printStackTrace();
