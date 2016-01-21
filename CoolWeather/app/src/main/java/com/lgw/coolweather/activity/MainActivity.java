@@ -8,36 +8,19 @@ import android.os.Handler;
 import android.os.Message;
 import android.view.View;
 import android.view.Window;
-import android.widget.Button;
-import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.lgw.coolweather.R;
 import com.lgw.coolweather.constant.MainMessage;
-import com.lgw.coolweather.constant.RequestData;
 import com.lgw.coolweather.db.DBManager;
-import com.lgw.coolweather.httpclient.HttpConnectionTool;
 import com.lgw.coolweather.model.city.City;
-import com.lgw.coolweather.utils.JsonObjectTool;
-import com.lgw.coolweather.utils.LogUtil;
 
-import org.json.JSONArray;
-
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.URL;
 import java.util.ArrayList;
 
 
 public class MainActivity extends Activity implements View.OnClickListener {
     public String TAG = "MainActivity_____________________";
-    public EditText city;
-    public Button search;
+    public TextView search;
     public TextView msg_tv;
     public SQLiteDatabase database;
     private ArrayList<City> cities;
@@ -57,8 +40,11 @@ public class MainActivity extends Activity implements View.OnClickListener {
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_main);
-        city = (EditText) findViewById(R.id.editCity);
-        search = (Button) findViewById(R.id.search);
+
+        DBManager dbManager = new DBManager(this);
+        dbManager.openDatabase();
+        dbManager.closeDatabase();
+        search = (TextView) findViewById(R.id.search);
         msg_tv = (TextView) findViewById(R.id.msg);
         search.setOnClickListener(this);
     }
@@ -94,19 +80,11 @@ public class MainActivity extends Activity implements View.OnClickListener {
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.search:
-                String cities = city.getText().toString();
-                LogUtil.i(TAG, "" + cities);
-                if (cities.equals("")) {
-                    DBManager dbManager = new DBManager(this);
-                    dbManager.openDatabase();
-                    dbManager.closeDatabase();
-                    Toast.makeText(getApplicationContext(), "数据库导入成功", Toast.LENGTH_SHORT).show();
-                } else {
-                    sendRequestWithHttpURLConnection();
-                }
+                sendRequestWithHttpURLConnection();
+                break;
         }
-
     }
+
 
     private ArrayList<City> getCity() {
         Cursor cursor = database.rawQuery("select * from city where id = 12", null);
@@ -138,6 +116,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
                     city.setNATIONCN(NATIONCN);
                     cities.add(city);
                 } while (cursor.moveToNext());
+                cursor.close();
             }
             return cities;
         }
