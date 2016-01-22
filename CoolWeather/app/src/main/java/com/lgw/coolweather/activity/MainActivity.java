@@ -1,6 +1,7 @@
 package com.lgw.coolweather.activity;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
@@ -13,15 +14,18 @@ import android.widget.TextView;
 import com.lgw.coolweather.R;
 import com.lgw.coolweather.constant.MainMessage;
 import com.lgw.coolweather.db.DBManager;
+import com.lgw.coolweather.httpclient.HttpConnectionTool;
 import com.lgw.coolweather.model.city.City;
+import com.lgw.coolweather.model.gson.Data;
+import com.lgw.coolweather.utils.JsonGsonTool;
 
 import java.util.ArrayList;
+import java.util.List;
 
 
 public class MainActivity extends Activity implements View.OnClickListener {
     public String TAG = "MainActivity_____________________";
-    public TextView search;
-    public TextView msg_tv;
+    public TextView search, ibtn_city, msg_tv;
     public SQLiteDatabase database;
     private ArrayList<City> cities;
     public Handler handler = new Handler() {
@@ -29,8 +33,11 @@ public class MainActivity extends Activity implements View.OnClickListener {
         public void handleMessage(Message msg) {
             switch (msg.what) {
                 case MainMessage.SHOW_RESPONSE:
-                    String response = (String) msg.obj;
-                    msg_tv.setText(response);
+                    List s = (List) msg.obj;
+                    City city = (City) s.get(0);
+                    Data[] data = (Data[]) s.get(1);
+                    ibtn_city.setText(city.getNAMECN() + "");
+                    msg_tv.setText(data[0].getSuggestion().getComf().getTxt() + "");
             }
         }
     };
@@ -47,6 +54,9 @@ public class MainActivity extends Activity implements View.OnClickListener {
         search = (TextView) findViewById(R.id.search);
         msg_tv = (TextView) findViewById(R.id.msg);
         search.setOnClickListener(this);
+        ibtn_city = (TextView) findViewById(R.id.ibtn_city);
+        ibtn_city.setText("北京");
+        ibtn_city.setOnClickListener(this);
     }
 
     private void sendRequestWithHttpURLConnection() {
@@ -54,23 +64,18 @@ public class MainActivity extends Activity implements View.OnClickListener {
             @Override
             public void run() {
                 database = SQLiteDatabase.openOrCreateDatabase(DBManager.DB_PATH + "/" + DBManager.DB_NAME, null);
-                String response = null;
-                cities = getCity();
-                for (City city : cities) {
-                    response = city.getID() + "\n" +
-                            city.getAREAID() + "\n" +
-                            city.getNAMEEN() + "\n" +
-                            city.getNAMECN() + "\n" +
-                            city.getDISTRICTEN() + "\n" +
-                            city.getDISTRICTCN() + "\n" +
-                            city.getPROVEN() + "\n" +
-                            city.getPROVCN() + "\n" +
-                            city.getNATIONEN() + "\n" +
-                            city.getNATIONCN() + "\n";
+                List<City> city = getCity();
+                City c = null;
+                if (city != null) {
+                    c = city.get(0);
                 }
+                Data[] datas = JsonGsonTool.parserJSONWithGson(new HttpConnectionTool().getResponse());
+                List<Object> datalist = new ArrayList<>();
+                datalist.add(c);
+                datalist.add(datas);
                 Message message = new Message();
                 message.what = MainMessage.SHOW_RESPONSE;
-                message.obj = response;
+                message.obj = datalist;
                 handler.sendMessage(message);
             }
         }).start();
@@ -82,12 +87,15 @@ public class MainActivity extends Activity implements View.OnClickListener {
             case R.id.search:
                 sendRequestWithHttpURLConnection();
                 break;
+            case R.id.ibtn_city:
+                Intent it = new Intent(this, CityActivity.class);
+                startActivity(it);
         }
     }
 
 
     private ArrayList<City> getCity() {
-        Cursor cursor = database.rawQuery("select * from city where id = 12", null);
+        Cursor cursor = database.rawQuery("select * from city where namecn = '广州'", null);
         if (cursor != null) {
             int NUM_CITY = cursor.getCount();
             ArrayList<City> cities = new ArrayList<>(NUM_CITY);
